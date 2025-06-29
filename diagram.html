@@ -1,0 +1,565 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Diagramas Técnicos - Sistema Tacômetro Industrial</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: #333;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+        
+        .header {
+            background: linear-gradient(135deg, #2c3e50, #34495e);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+        
+        .header h1 {
+            margin: 0;
+            font-size: 2.5em;
+            font-weight: 300;
+        }
+        
+        .header p {
+            margin: 10px 0 0 0;
+            opacity: 0.8;
+            font-size: 1.1em;
+        }
+        
+        .content {
+            padding: 40px;
+        }
+        
+        .diagram-section {
+            margin-bottom: 50px;
+            border: 2px solid #ecf0f1;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+        
+        .diagram-title {
+            background: #3498db;
+            color: white;
+            padding: 15px 25px;
+            margin: 0;
+            font-size: 1.4em;
+            font-weight: bold;
+        }
+        
+        .diagram-content {
+            padding: 30px;
+        }
+        
+        .timing-diagram {
+            background: #f8f9fa;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 20px;
+            margin: 20px 0;
+            font-family: 'Courier New', monospace;
+            overflow-x: auto;
+        }
+        
+        .signal-high {
+            color: #27ae60;
+            font-weight: bold;
+        }
+        
+        .signal-low {
+            color: #e74c3c;
+            font-weight: bold;
+        }
+        
+        .signal-neutral {
+            color: #95a5a6;
+        }
+        
+        .architecture-diagram {
+            background: linear-gradient(135deg, #f5f7fa, #c3cfe2);
+            border-radius: 10px;
+            padding: 25px;
+            margin: 20px 0;
+        }
+        
+        .component-box {
+            background: white;
+            border: 2px solid #3498db;
+            border-radius: 8px;
+            padding: 15px;
+            margin: 10px;
+            text-align: center;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease;
+        }
+        
+        .component-box:hover {
+            transform: translateY(-5px);
+        }
+        
+        .isr-box {
+            background: #e8f5e8;
+            border-color: #27ae60;
+        }
+        
+        .timer-box {
+            background: #fff3e0;
+            border-color: #f39c12;
+        }
+        
+        .data-box {
+            background: #e3f2fd;
+            border-color: #2196f3;
+        }
+        
+        .flow-arrow {
+            color: #e74c3c;
+            font-size: 1.5em;
+            margin: 0 10px;
+        }
+        
+        .formula-box {
+            background: #f8f9fa;
+            border-left: 4px solid #3498db;
+            padding: 20px;
+            margin: 15px 0;
+            font-family: 'Courier New', monospace;
+        }
+        
+        .parameter-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+        
+        .parameter-table th,
+        .parameter-table td {
+            border: 1px solid #ddd;
+            padding: 12px;
+            text-align: left;
+        }
+        
+        .parameter-table th {
+            background: #3498db;
+            color: white;
+            font-weight: bold;
+        }
+        
+        .parameter-table tr:nth-child(even) {
+            background: #f9f9f9;
+        }
+        
+        .highlight {
+            background: #fff3cd;
+            border: 1px solid #ffeaa7;
+            border-radius: 5px;
+            padding: 15px;
+            margin: 15px 0;
+        }
+        
+        .code-snippet {
+            background: #2d3748;
+            color: #e2e8f0;
+            padding: 20px;
+            border-radius: 8px;
+            overflow-x: auto;
+            font-family: 'Courier New', monospace;
+            margin: 15px 0;
+        }
+        
+        .flex-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin: 20px 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>📊 Diagramas Técnicos do Sistema Tacômetro</h1>
+            <p>Omar Achraf - omarachraf@gmail.com - Industrial Tachometer v1.0</p>
+        </div>
+        
+        <div class="content">
+            <!-- Arquitetura do Sistema -->
+            <div class="diagram-section">
+                <h2 class="diagram-title">🏗️ Arquitetura de Dupla Interrupção</h2>
+                <div class="diagram-content">
+                    <div class="architecture-diagram">
+                        <div class="flex-container">
+                            <div class="component-box">
+                                <strong>Sensor IR</strong><br>
+                                <small>Fototransistor/Optoacoplador</small><br>
+                                <span class="signal-high">PULSOS</span>
+                            </div>
+                            <span class="flow-arrow">→</span>
+                            <div class="component-box isr-box">
+                                <strong>ISR Externa</strong><br>
+                                <small>HandlePulseInterrupt()</small><br>
+                                <span>Pin 2,3,18,19,20,21</span>
+                            </div>
+                            <span class="flow-arrow">→</span>
+                            <div class="component-box data-box">
+                                <strong>Contador</strong><br>
+                                <small>pulseCounter++</small><br>
+                                <span>Thread-Safe</span>
+                            </div>
+                        </div>
+                        
+                        <div style="text-align: center; margin: 20px 0;">
+                            <span style="font-size: 2em;">⏱️</span><br>
+                            <strong>Base de Tempo Independente</strong>
+                        </div>
+                        
+                        <div class="flex-container">
+                            <div class="component-box timer-box">
+                                <strong>Timer CTC</strong><br>
+                                <small>Timer1/3/4/5</small><br>
+                                <span>Prescaler 1024</span>
+                            </div>
+                            <span class="flow-arrow">→</span>
+                            <div class="component-box isr-box">
+                                <strong>ISR Timer</strong><br>
+                                <small>HandleTimerInterrupt()</small><br>
+                                <span>1Hz (configurável)</span>
+                            </div>
+                            <span class="flow-arrow">→</span>
+                            <div class="component-box data-box">
+                                <strong>Cálculo RPM</strong><br>
+                                <small>frequency → RPM</small><br>
+                                <span>Filtragem Digital</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="highlight">
+                        <strong>Vantagem da Arquitetura:</strong> A separação entre contagem de pulsos e base de tempo garante máxima precisão, eliminando erros de sincronização e permitindo debounce em hardware.
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Diagrama de Timing -->
+            <div class="diagram-section">
+                <h2 class="diagram-title">⏰ Diagrama de Timing - Base de Tempo</h2>
+                <div class="diagram-content">
+                    <div class="timing-diagram">
+                        <pre>
+<strong>Sistema Clock (16MHz):</strong>
+CPU_CLK:  <span class="signal-high">▔▁▔▁▔▁▔▁▔▁▔▁▔▁▔▁▔▁▔▁▔▁▔▁▔▁▔▁▔▁▔▁▔▁▔▁▔▁▔▁▔▁▔▁▔▁</span>
+          |←── 62.5ns ──→|
+
+<strong>Timer Clock (15.625kHz após prescaler 1024):</strong>
+TIMER:    <span class="signal-high">▔▔▔▔▔▔▔▁▁▁▁▁▁▁▔▔▔▔▔▔▔▁▁▁▁▁▁▁▔▔▔▔▔▔▔▁▁▁▁▁▁▁</span>
+          |←── 64μs ──→|
+
+<strong>Timer Compare Match (1Hz para sample_period=1000ms):</strong>
+CMP:      <span class="signal-low">▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁</span><span class="signal-high">▔</span><span class="signal-low">▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁</span><span class="signal-high">▔</span><span class="signal-low">▁</span>
+          |←────── 1000ms (15625 counts) ──────→|
+
+<strong>ISR Timer Execution:</strong>
+ISR_T:    <span class="signal-low">▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁</span><span class="signal-high">▔▔</span><span class="signal-low">▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁</span><span class="signal-high">▔▔</span><span class="signal-low">▁</span>
+          |4μs|                                    |4μs|
+
+<strong>Cálculo de Frequência (exemplo: 10 pulsos em 1s):</strong>
+PULSES:   P1  P2  P3  P4  P5  P6  P7  P8  P9  P10    <span class="signal-neutral">[RESET]</span>
+FREQ:     <span class="signal-low">▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁</span><span class="signal-high">10Hz</span><span class="signal-low">▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁</span><span class="signal-high">10Hz</span>
+                                                     ↑
+                                               frequency = (10 * 1000) / 1000 = 10Hz
+                                               RPM = (10 * 60) / 1 = 600 RPM
+</pre>
+                    </div>
+                    
+                    <div class="formula-box">
+                        <strong>Fórmulas de Temporização:</strong><br><br>
+                        <strong>Timer Compare Value:</strong><br>
+                        OCRnA = (F_CPU * periodo_ms) / (prescaler * 1000) - 1<br>
+                        OCR1A = (16000000 * 1000) / (1024 * 1000) - 1 = 15624<br><br>
+                        
+                        <strong>Precisão do Timer:</strong><br>
+                        Erro = ±1 clock cycle = ±64μs @ prescaler 1024<br>
+                        Precisão = ±0.0064% @ 1 segundo
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Diagrama de Sinais -->
+            <div class="diagram-section">
+                <h2 class="diagram-title">📡 Diagrama de Sinais - Detecção de Pulsos</h2>
+                <div class="diagram-content">
+                    <div class="timing-diagram">
+                        <pre>
+<strong>Sensor IR (saída analógica):</strong>
+ANALOG:   <span class="signal-neutral">▔▔▔▔</span><span class="signal-low">▁▁▁</span><span class="signal-neutral">▔▔▔▔▔▔</span><span class="signal-low">▁▁</span><span class="signal-neutral">▔▔▔▔▔▔▔▔</span><span class="signal-low">▁▁▁</span><span class="signal-neutral">▔▔▔▔▔</span>  (0V-5V)
+          3.2V  0.8V   3.2V   0.8V    3.2V     0.8V   3.2V
+
+<strong>Threshold Digital (2.5V):</strong>
+DIGITAL:  <span class="signal-high">▔▔▔▔</span><span class="signal-low">▁▁▁</span><span class="signal-high">▔▔▔▔▔▔</span><span class="signal-low">▁▁</span><span class="signal-high">▔▔▔▔▔▔▔▔</span><span class="signal-low">▁▁▁</span><span class="signal-high">▔▔▔▔▔</span>  (TTL)
+
+<strong>Detecção de Borda (RISING):</strong>
+EDGE:     <span class="signal-low">▁▁▁</span><span class="signal-high">▔</span><span class="signal-low">▁▁▁▁▁▁</span><span class="signal-high">▔</span><span class="signal-low">▁▁▁▁▁▁▁▁▁▁▁</span><span class="signal-high">▔</span><span class="signal-low">▁▁▁▁▁</span>
+             ↑              ↑                    ↑
+            P1             P2                   P3
+
+<strong>Debounce Filter (100μs):</strong>
+RAW:      <span class="signal-low">▁▁▁</span><span class="signal-high">▔</span><span class="signal-low">▁</span><span class="signal-high">▔</span><span class="signal-low">▁</span><span class="signal-high">▔</span><span class="signal-low">▁▁</span><span class="signal-high">▔</span><span class="signal-low">▁▁▁▁▁▁▁▁▁▁▁</span><span class="signal-high">▔</span><span class="signal-low">▁▁▁▁▁</span>  (pulsos ruidosos)
+             ↑ ↑ ↑ ↑      ↑                    ↑
+            
+FILTERED: <span class="signal-low">▁▁▁</span><span class="signal-high">▔</span><span class="signal-low">▁▁▁▁▁▁</span><span class="signal-high">▔</span><span class="signal-low">▁▁▁▁▁▁▁▁▁▁▁</span><span class="signal-high">▔</span><span class="signal-low">▁▁▁▁▁</span>  (pulsos válidos)
+             ↑              ↑                    ↑
+            P1             P2                   P3
+
+<strong>ISR Externa (4μs latência):</strong>
+ISR_P:    <span class="signal-low">▁▁▁▁</span><span class="signal-high">▔</span><span class="signal-low">▁▁▁▁▁▁▁</span><span class="signal-high">▔</span><span class="signal-low">▁▁▁▁▁▁▁▁▁▁▁▁</span><span class="signal-high">▔</span><span class="signal-low">▁▁▁▁▁</span>
+              ↑                ↑                      ↑
+        counter++        counter++             counter++
+
+<strong>Medição de Intervalo:</strong>
+INTERVAL: |←── 150ms ──→|←──── 280ms ────→|
+          t1=1000μs      t2=151000μs      t3=431000μs
+          
+<strong>Instant RPM calculation:</strong>
+RPM_inst = 60000000 / interval_μs
+RPM_inst1 = 60000000 / 150000 = 400 RPM
+RPM_inst2 = 60000000 / 280000 = 214 RPM
+</pre>
+                    </div>
+                    
+                    <div class="highlight">
+                        <strong>Debounce Algorithm:</strong><br>
+                        <code>if (currentMicros - lastInterruptMicros >= debounceMicros)</code><br>
+                        Apenas pulsos com intervalo ≥ debounce são considerados válidos.
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Filtragem Digital -->
+            <div class="diagram-section">
+                <h2 class="diagram-title">🔧 Filtragem Digital - Resposta Temporal</h2>
+                <div class="diagram-content">
+                    <div class="timing-diagram">
+                        <pre>
+<strong>Entrada Raw RPM (com ruído):</strong>
+RAW:      600  650  580  620  590  640  585  615  595  625
+          ▲     ▲    ▲    ▲    ▲    ▲    ▲    ▲    ▲    ▲
+          |     |    |    |    |    |    |    |    |    |
+Time:     0s   1s   2s   3s   4s   5s   6s   7s   8s   9s
+
+<strong>Low-Pass Filter (α=0.8):</strong>
+STEP1:    600                 # y[0] = x[0] = 600
+STEP2:    640                 # y[1] = 0.8*650 + 0.2*600 = 640
+STEP3:    628                 # y[2] = 0.8*580 + 0.2*640 = 628
+STEP4:    626                 # y[3] = 0.8*620 + 0.2*628 = 626
+FILTERED: 600  640  628  626  621  634  623  629  625  629
+
+<strong>Moving Average (window=5):</strong>
+WINDOW1:  [600]                           → avg = 600
+WINDOW2:  [600,640]                       → avg = 620
+WINDOW3:  [600,640,628]                   → avg = 623
+WINDOW4:  [600,640,628,626]               → avg = 624
+WINDOW5:  [600,640,628,626,621]           → avg = 623
+WINDOW6:  [640,628,626,621,634]           → avg = 630
+AVERAGE:  600  620  623  624  623  630  628  629  628  628
+
+<strong>Comparação de Resposta:</strong>
+RAW:      ████▄▄████▄▄████▄▄████▄▄████     (alta variação)
+FILTER:   ███▄▄▄███▄▄███▄▄███▄▄███▄      (suave, rápida)
+AVERAGE:  ███▄▄▄▄███▄▄▄███▄▄▄███▄▄      (muito suave, lenta)
+</pre>
+                    </div>
+                    
+                    <table class="parameter-table">
+                        <tr>
+                            <th>Filtro</th>
+                            <th>α / Window</th>
+                            <th>Resposta</th>
+                            <th>Ruído</th>
+                            <th>Aplicação</th>
+                        </tr>
+                        <tr>
+                            <td>Raw (sem filtro)</td>
+                            <td>α = 1.0</td>
+                            <td>Instantânea</td>
+                            <td>Alto</td>
+                            <td>Análise de transitórios</td>
+                        </tr>
+                        <tr>
+                            <td>Low-pass rápido</td>
+                            <td>α = 0.8</td>
+                            <td>Rápida</td>
+                            <td>Médio</td>
+                            <td>Controle dinâmico</td>
+                        </tr>
+                        <tr>
+                            <td>Low-pass médio</td>
+                            <td>α = 0.5</td>
+                            <td>Média</td>
+                            <td>Baixo</td>
+                            <td>Monitoramento geral</td>
+                        </tr>
+                        <tr>
+                            <td>Low-pass lento</td>
+                            <td>α = 0.2</td>
+                            <td>Lenta</td>
+                            <td>Muito baixo</td>
+                            <td>Análise de tendências</td>
+                        </tr>
+                        <tr>
+                            <td>Moving Average</td>
+                            <td>window = 10</td>
+                            <td>Muito lenta</td>
+                            <td>Mínimo</td>
+                            <td>Dados científicos</td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+            
+            <!-- Operação Atômica -->
+            <div class="diagram-section">
+                <h2 class="diagram-title">🔒 Operações Atômicas - Thread Safety</h2>
+                <div class="diagram-content">
+                    <div class="timing-diagram">
+                        <pre>
+<strong>Problema: Variável 32-bit em AVR (8-bit CPU):</strong>
+
+uint32_t counter = 0x12345678;  // Valor a ser lido
+
+<strong>Operação NÃO-atômica (PERIGOSA):</strong>
+Main Code:                  ISR Context:
+         |                          |
+         | LDS R18, counter+0       | (lê byte 0: 0x78)
+         | LDS R19, counter+1       | 
+         |                          | INC counter
+         |                          | counter = 0x12345679
+         | LDS R20, counter+2       | (lê byte 2: 0x34) ← INCONSISTENTE!
+         | LDS R21, counter+3       | (lê byte 3: 0x12)
+         |                          |
+Result: 0x12345678 (correto) vs 0x12345479 (ERRO!)
+
+<strong>Operação ATÔMICA (SEGURA):</strong>
+Main Code:                  ISR Context:
+         |                          |
+         | CLI                      | (desabilita interrupções)
+         | LDS R18, counter+0       | 
+         | LDS R19, counter+1       | [ISR BLOQUEADA]
+         | LDS R20, counter+2       | 
+         | LDS R21, counter+3       | 
+         | SEI                      | (reabilita interrupções)
+         |                          | INC counter (agora pode executar)
+         |                          |
+Result: 0x12345678 (CORRETO SEMPRE!)
+</pre>
+                    </div>
+                    
+                    <div class="code-snippet">
+// Implementação C++ Thread-Safe
+uint32_t AtomicRead32(volatile uint32_t& volatileVar) {
+    uint32_t result;
+    
+    #if defined(ESP32)
+        portENTER_CRITICAL_ISR(&mux);
+        result = volatileVar;           // ESP32: 32-bit atômico nativo
+        portEXIT_CRITICAL_ISR(&mux);
+    #elif defined(TEENSY41)
+        __disable_irq();
+        result = volatileVar;           // ARM: 32-bit atômico nativo
+        __enable_irq();
+    #else  // Arduino AVR
+        noInterrupts();                 // CLI instruction
+        result = volatileVar;           // 4x LDS instructions
+        interrupts();                   // SEI instruction
+    #endif
+    
+    return result;
+}
+                    </div>
+                    
+                    <div class="highlight">
+                        <strong>Latência de Interrupção:</strong><br>
+                        • Arduino Mega: ~10μs (CLI/SEI + 4 LDS)<br>
+                        • ESP32: ~1μs (hardware mutex)<br>
+                        • Teensy 4.1: ~0.5μs (disable_irq/enable_irq)
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Performance Comparison -->
+            <div class="diagram-section">
+                <h2 class="diagram-title">⚡ Comparação de Performance - Plataformas</h2>
+                <div class="diagram-content">
+                    <table class="parameter-table">
+                        <tr>
+                            <th>Plataforma</th>
+                            <th>CPU</th>
+                            <th>Clock</th>
+                            <th>Max Input</th>
+                            <th>ISR Latency</th>
+                            <th>Timer Resolution</th>
+                            <th>RAM</th>
+                        </tr>
+                        <tr>
+                            <td><strong>Arduino Mega</strong></td>
+                            <td>ATmega2560</td>
+                            <td>16 MHz</td>
+                            <td>50 kHz</td>
+                            <td>~4 μs</td>
+                            <td>4 μs (micros)</td>
+                            <td>8 KB</td>
+                        </tr>
+                        <tr>
+                            <td><strong>ESP32</strong></td>
+                            <td>Xtensa LX6</td>
+                            <td>240 MHz</td>
+                            <td>200 kHz</td>
+                            <td>~1 μs</td>
+                            <td>1 μs (esp_timer)</td>
+                            <td>520 KB</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Teensy 4.1</strong></td>
+                            <td>ARM M7</td>
+                            <td>600 MHz</td>
+                            <td>500 kHz</td>
+                            <td>~0.5 μs</td>
+                            <td>0.1 μs (ARM timer)</td>
+                            <td>1 MB</td>
+                        </tr>
+                    </table>
+                    
+                    <div class="architecture-diagram">
+                        <h3>Gráfico de Performance Relativa:</h3>
+                        <div style="margin: 20px 0;">
+                            <div style="background: #3498db; height: 30px; width: 100px; display: inline-block; margin: 5px;"></div>
+                            <span><strong>Arduino Mega</strong> - Baseline (1x)</span><br>
+                            
+                            <div style="background: #e74c3c; height: 30px; width: 400px; display: inline-block; margin: 5px;"></div>
+                            <span><strong>ESP32</strong> - 4x Performance</span><br>
+                            
+                            <div style="background: #27ae60; height: 30px; width: 1000px; display: inline-block; margin: 5px;"></div>
+                            <span><strong>Teensy 4.1</strong> - 10x Performance</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

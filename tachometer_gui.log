@@ -1,0 +1,89 @@
+2025-06-29 13:20:01.742 [INFO] [26724] TachometerGUI.__init__(): Starting Tachometer GUI application
+2025-06-29 13:20:01.742 [DEBUG] [26724] TachometerGUI.create_main_window(): Creating main application window
+2025-06-29 13:20:01.808 [DEBUG] [26724] TachometerGUI.create_main_window(): Main window configured successfully
+2025-06-29 13:20:01.809 [DEBUG] [26724] TachometerGUI.create_widgets(): Creating GUI widgets
+2025-06-29 13:20:01.812 [DEBUG] [26724] TachometerGUI.create_monitor_tab(): Creating monitoring tab
+2025-06-29 13:20:01.825 [DEBUG] [26724] TachometerGUI.create_monitor_tab(): Monitor tab created successfully
+2025-06-29 13:20:01.826 [DEBUG] [26724] TachometerGUI.create_control_tab(): Creating control tab
+2025-06-29 13:20:01.835 [DEBUG] [26724] TachometerGUI.create_control_tab(): Control tab created successfully
+2025-06-29 13:20:01.835 [DEBUG] [26724] TachometerGUI.create_config_tab(): Creating configuration tab
+2025-06-29 13:20:01.842 [DEBUG] [26724] TachometerGUI.create_config_tab(): Configuration tab created successfully
+2025-06-29 13:20:01.843 [DEBUG] [26724] TachometerGUI.create_log_tab(): Creating log tab
+2025-06-29 13:20:01.846 [DEBUG] [26724] TachometerGUI.create_log_tab(): Log tab created successfully
+2025-06-29 13:20:01.847 [DEBUG] [26724] TachometerGUI.create_widgets(): All GUI widgets created successfully
+2025-06-29 13:20:01.847 [DEBUG] [26724] TachometerGUI.setup_plotting(): Setting up real-time charts
+2025-06-29 13:20:01.906 [INFO] [26724] TachometerGUI.setup_plotting(): Chart setup completed successfully
+2025-06-29 13:20:01.907 [INFO] [26724] TachometerGUI.__init__(): GUI initialization complete
+2025-06-29 13:20:01.907 [INFO] [26724] TachometerGUI.run(): Starting GUI main loop
+2025-06-29 13:20:01.914 [INFO] [26724] TachometerGUI.refresh_ports(): Found 1 serial ports
+2025-06-29 13:20:01.919 [DEBUG] [26724] TachometerGUI.run(): Entering tkinter main loop
+2025-06-29 13:20:54.291 [INFO] [26724] TachometerGUI.toggle_connection(): Attempting connection to COM6
+2025-06-29 13:20:56.377 [DEBUG] [6368] TachometerGUI.serial_communication_thread(): Starting serial communication thread
+2025-06-29 13:20:56.377 [INFO] [26724] TachometerGUI.toggle_connection(): Successfully connected to COM6
+2025-06-29 13:20:56.378 [WARNING] [6368] TachometerGUI.process_incoming_data(): Unknown message format: 0x1 (POWERON_RESET),boot:0x13 (SPI_FAST_FLASH_BOOT)
+2025-06-29 13:20:56.381 [DEBUG] [26724] TachometerGUI.send_command(command=GET_CONFIG): Sending command to Arduino
+2025-06-29 13:20:56.381 [INFO] [26724] TachometerGUI.send_command(command=GET_CONFIG): Command queued: GET_CONFIG
+2025-06-29 13:20:56.390 [WARNING] [6368] TachometerGUI.process_incoming_data(): Unknown message format: configsip: 0, SPIWP:0xee
+2025-06-29 13:20:56.437 [WARNING] [6368] TachometerGUI.process_incoming_data(): Unknown message format: clk_drv:0x00,q_drv:0x00,d_drv:0x00,cs0_drv:0x00,hd_drv:0x00,wp_drv:0x00
+2025-06-29 13:20:56.460 [WARNING] [6368] TachometerGUI.process_incoming_data(): Unknown message format: mode:DIO, clock div:1
+2025-06-29 13:20:56.480 [WARNING] [6368] TachometerGUI.process_incoming_data(): Unknown message format: load:0x3fff0030,len:4604
+2025-06-29 13:20:56.491 [WARNING] [6368] TachometerGUI.process_incoming_data(): Unknown message format: ho 0 tail 12 room 4
+2025-06-29 13:20:56.502 [WARNING] [6368] TachometerGUI.process_incoming_data(): Unknown message format: load:0x40078000,len:15488
+2025-06-29 13:20:56.513 [WARNING] [6368] TachometerGUI.process_incoming_data(): Unknown message format: load:0x40080400,len:4
+2025-06-29 13:20:56.524 [WARNING] [6368] TachometerGUI.process_incoming_data(): Unknown message format: load:0x40080404,len:3180
+2025-06-29 13:20:56.535 [WARNING] [6368] TachometerGUI.process_incoming_data(): Unknown message format: entry 0x400805b8
+2025-06-29 13:20:56.546 [DEBUG] [6368] TachometerGUI.process_incoming_data(): System message received: STARTUP
+2025-06-29 13:20:56.557 [DEBUG] [6368] TachometerGUI.process_incoming_data(): System message received: INIT_OK
+2025-06-29 13:20:56.568 [DEBUG] [6368] TachometerGUI.process_incoming_data(): Configuration data received and parsed
+2025-06-29 13:20:56.576 [DEBUG] [26724] TachometerGUI.handle_system_message(): Processing system message: STARTUP
+2025-06-29 13:20:56.576 [INFO] [26724] TachometerGUI.handle_system_message(): Arduino system starting up
+2025-06-29 13:20:56.580 [DEBUG] [26724] TachometerGUI.handle_system_message(): Processing system message: INIT_OK
+2025-06-29 13:20:56.581 [INFO] [26724] TachometerGUI.handle_system_message(): Arduino initialization successful
+2025-06-29 13:20:56.587 [DEBUG] [26724] TachometerGUI.update_configuration_display(): Configuration display updated successfully
+2025-06-29 13:20:56.592 [DEBUG] [6368] TachometerGUI.process_incoming_data(): Configuration data received and parsed
+2025-06-29 13:20:56.696 [DEBUG] [26724] TachometerGUI.update_configuration_display(): Configuration display updated successfully
+2025-06-29 13:21:10.067 [INFO] [26724] TachometerGUI.on_closing(): Application closing initiated
+2025-06-29 13:21:10.067 [DEBUG] [26724] TachometerGUI.on_closing(): Disconnecting before closing
+2025-06-29 13:21:10.067 [INFO] [26724] TachometerGUI.disconnect(): Disconnecting from Arduino
+2025-06-29 13:21:10.077 [DEBUG] [6368] TachometerGUI.serial_communication_thread(): Serial communication thread stopped
+2025-06-29 13:21:10.077 [DEBUG] [26724] TachometerGUI.disconnect(): Serial communication thread stopped
+2025-06-29 13:21:10.081 [DEBUG] [26724] TachometerGUI.disconnect(): Serial port closed
+2025-06-29 13:21:10.081 [INFO] [26724] TachometerGUI.disconnect(): Successfully disconnected from Arduino
+2025-06-29 13:21:10.081 [INFO] [26724] TachometerGUI.on_closing(): Closing log file
+2025-06-29 13:32:19.989 [DEBUG] [23560] TachometerGUI.create_main_window(): Main window configured successfully
+2025-06-29 13:32:20.006 [DEBUG] [23560] TachometerGUI.create_monitor_tab(): Monitor tab created successfully
+2025-06-29 13:32:20.014 [DEBUG] [23560] TachometerGUI.create_control_tab(): Control tab created successfully
+2025-06-29 13:32:20.019 [DEBUG] [23560] TachometerGUI.create_config_tab(): Configuration tab created successfully
+2025-06-29 13:32:20.022 [DEBUG] [23560] TachometerGUI.create_log_tab(): Log tab created successfully
+2025-06-29 13:32:20.022 [DEBUG] [23560] TachometerGUI.create_widgets(): All GUI widgets created successfully
+2025-06-29 13:32:20.074 [INFO] [23560] TachometerGUI.setup_plotting(): Chart setup completed successfully
+2025-06-29 13:32:20.074 [INFO] [23560] TachometerGUI.__init__(): GUI initialization complete
+2025-06-29 13:32:20.081 [INFO] [23560] TachometerGUI.refresh_ports(): Found 1 serial ports
+2025-06-29 13:32:20.085 [DEBUG] [23560] TachometerGUI.run(): Entering tkinter main loop
+2025-06-29 13:32:22.837 [INFO] [23560] TachometerGUI.toggle_connection(): Attempting connection to COM6
+2025-06-29 13:32:24.925 [INFO] [23560] TachometerGUI.toggle_connection(): Successfully connected to COM6
+2025-06-29 13:32:24.926 [WARNING] [8096] TachometerGUI.process_incoming_data(): Unknown message format: 0x1 (POWERON_RESET),boot:0x13 (SPI_FAST_FLASH_BOOT)
+2025-06-29 13:32:24.929 [INFO] [23560] TachometerGUI.send_command(command=GET_CONFIG): Command queued: GET_CONFIG
+2025-06-29 13:32:24.938 [WARNING] [8096] TachometerGUI.process_incoming_data(): Unknown message format: configsip: 0, SPIWP:0xee
+2025-06-29 13:32:24.978 [WARNING] [8096] TachometerGUI.process_incoming_data(): Unknown message format: clk_drv:0x00,q_drv:0x00,d_drv:0x00,cs0_drv:0x00,hd_drv:0x00,wp_drv:0x00
+2025-06-29 13:32:24.996 [WARNING] [8096] TachometerGUI.process_incoming_data(): Unknown message format: mode:DIO, clock div:1
+2025-06-29 13:32:25.029 [WARNING] [8096] TachometerGUI.process_incoming_data(): Unknown message format: load:0x3fff0030,len:4604
+2025-06-29 13:32:25.043 [WARNING] [8096] TachometerGUI.process_incoming_data(): Unknown message format: ho 0 tail 12 room 4
+2025-06-29 13:32:25.054 [WARNING] [8096] TachometerGUI.process_incoming_data(): Unknown message format: load:0x40078000,len:15488
+2025-06-29 13:32:25.065 [WARNING] [8096] TachometerGUI.process_incoming_data(): Unknown message format: load:0x40080400,len:4
+2025-06-29 13:32:25.077 [WARNING] [8096] TachometerGUI.process_incoming_data(): Unknown message format: load:0x40080404,len:3180
+2025-06-29 13:32:25.088 [WARNING] [8096] TachometerGUI.process_incoming_data(): Unknown message format: entry 0x400805b8
+2025-06-29 13:32:25.099 [DEBUG] [8096] TachometerGUI.process_incoming_data(): System message received: STARTUP
+2025-06-29 13:32:25.103 [INFO] [23560] TachometerGUI.handle_system_message(): Arduino system starting up
+2025-06-29 13:32:25.110 [DEBUG] [8096] TachometerGUI.process_incoming_data(): System message received: INIT_OK
+2025-06-29 13:32:25.121 [DEBUG] [8096] TachometerGUI.process_incoming_data(): Configuration data received and parsed
+2025-06-29 13:32:25.143 [DEBUG] [8096] TachometerGUI.process_incoming_data(): Configuration data received and parsed
+2025-06-29 13:32:25.233 [INFO] [23560] TachometerGUI.handle_system_message(): Arduino initialization successful
+2025-06-29 13:32:25.239 [DEBUG] [23560] TachometerGUI.update_configuration_display(): Configuration display updated successfully
+2025-06-29 13:32:25.241 [DEBUG] [23560] TachometerGUI.update_configuration_display(): Configuration display updated successfully
+2025-06-29 13:32:50.618 [DEBUG] [23560] TachometerGUI.on_closing(): Disconnecting before closing
+2025-06-29 13:32:50.627 [DEBUG] [8096] TachometerGUI.serial_communication_thread(): Serial communication thread stopped
+2025-06-29 13:32:50.627 [DEBUG] [23560] TachometerGUI.disconnect(): Serial communication thread stopped
+2025-06-29 13:32:50.632 [DEBUG] [23560] TachometerGUI.disconnect(): Serial port closed
+2025-06-29 13:32:50.632 [INFO] [23560] TachometerGUI.disconnect(): Successfully disconnected from Arduino
+2025-06-29 13:32:50.638 [INFO] [23560] TachometerGUI.on_closing(): Closing log file

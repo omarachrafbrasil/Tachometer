@@ -15,6 +15,23 @@
 
 #include <Arduino.h>
 
+// Platform-specific includes
+#ifdef ARDUINO_ARCH_AVR
+    // Arduino Mega, Uno, etc. - AVR timers
+    #include <avr/interrupt.h>
+#elif defined(ESP32)
+    // ESP32 - Use hardware timers
+    #include "driver/timer.h"
+    #include "esp_timer.h"
+#elif defined(ARDUINO_ARCH_ESP32)
+    // ESP32 Arduino framework
+    #include "driver/timer.h"
+    #include "esp_timer.h"
+#elif defined(__arm__) && defined(TEENSYDUINO)
+    // Teensy 4.x - ARM Cortex-M7
+    #include "IntervalTimer.h"
+#endif
+
 #ifdef _WIN32
     #include <windows.h>
     #include <stdio.h>
@@ -35,39 +52,48 @@ private:
     static const uint8_t DEFAULT_PULSES_PER_REV = 1;        // Default encoder resolution
     
     // Instance configuration variables
-    uint8_t irSensorPin_;                    // IR sensor input pin number
-    uint16_t debounceMicros_;               // Minimum pulse width filter
-    uint16_t samplePeriodMs_;               // Timer interrupt period in milliseconds
-    uint8_t pulsesPerRevolution_;           // Encoder pulses per shaft revolution
+    uint8_t _irSensorPin;                    // IR sensor input pin number
+    uint16_t _debounceMicros;               // Minimum pulse width filter
+    uint16_t _samplePeriodMs;               // Timer interrupt period in milliseconds
+    uint8_t _pulsesPerRevolution;           // Encoder pulses per shaft revolution
     
     // Digital filtering configuration
-    bool filteringEnabled_;                 // Enable/disable digital filtering
-    uint16_t filterAlpha_;                  // Low-pass filter coefficient (0-1000)
-    uint8_t windowSize_;                    // Moving average window size
+    bool _filteringEnabled;                 // Enable/disable digital filtering
+    uint16_t _filterAlpha;                  // Low-pass filter coefficient (0-1000)
+    uint8_t _windowSize;                    // Moving average window size
     
     // Filtering variables
-    uint32_t filteredFrequency_;            // Low-pass filtered frequency
-    uint32_t filteredRpm_;                  // Low-pass filtered RPM
-    uint32_t frequencyHistory_[20];         // Circular buffer for moving average
-    uint8_t historyIndex_;                  // Current position in history buffer
-    uint8_t historyCount_;                  // Number of valid entries in history
+    uint32_t _filteredFrequency;            // Low-pass filtered frequency
+    uint32_t _filteredRpm;                  // Low-pass filtered RPM
+    uint32_t _frequencyHistory[20];         // Circular buffer for moving average
+    uint8_t _historyIndex;                  // Current position in history buffer
+    uint8_t _historyCount;                  // Number of valid entries in history
     
     // Volatile variables for ISR communication (thread-safe atomic access required)
-    volatile uint32_t pulseCounter_;         // Raw pulse count from sensor ISR
-    volatile uint32_t pulsesPerSample_;      // Pulses captured in last sample period
-    volatile uint32_t lastInterruptMicros_;  // Last valid interrupt timestamp
-    volatile uint32_t previousInterruptMicros_; // Previous interrupt timestamp for interval calculation
-    volatile uint32_t pulseIntervalMicros_;  // Time interval between last two pulses
-    volatile bool newDataAvailable_;         // Flag indicating fresh frequency data
+    volatile uint32_t _pulseCounter;         // Raw pulse count from sensor ISR
+    volatile uint32_t _pulsesPerSample;      // Pulses captured in last sample period
+    volatile uint32_t _lastInterruptMicros;  // Last valid interrupt timestamp
+    volatile uint32_t _previousInterruptMicros; // Previous interrupt timestamp for interval calculation
+    volatile uint32_t _pulseIntervalMicros;  // Time interval between last two pulses
+    volatile bool _newDataAvailable;         // Flag indicating fresh frequency data
     
     // Non-volatile operational variables
-    uint32_t currentFrequencyHz_;           // Current frequency in Hz (integer)
-    uint32_t currentRpm_;                   // Current RPM (integer)
-    uint32_t totalRevolutions_;             // Lifetime revolution counter
-    bool systemInitialized_;               // System initialization status
+    uint32_t _currentFrequencyHz;           // Current frequency in Hz (integer)
+    uint32_t _currentRpm;                   // Current RPM (integer)
+    uint32_t _totalRevolutions;             // Lifetime revolution counter
+    bool _systemInitialized;               // System initialization status
     
     // Timer configuration
-    uint8_t timerNumber_;                   // Timer number to use (1, 3, 4, or 5)
+    uint8_t _timerNumber;                   // Timer number to use (1, 3, 4, or 5)
+    
+    // Platform-specific timer handles
+#ifdef ESP32
+    esp_timer_handle_t _espTimerHandle;     // ESP32 timer handle
+#elif defined(ARDUINO_ARCH_ESP32)
+    esp_timer_handle_t _espTimerHandle;     // ESP32 timer handle
+#elif defined(__arm__) && defined(TEENSYDUINO)
+    IntervalTimer _teensyTimer;             // Teensy interval timer
+#endif
 
 
 public:
@@ -163,6 +189,39 @@ public:
 
 
     /**
+     * Reset only filter state and history buffer.
+     * Clears filtering memory while preserving revolution counters.
+     * Args:
+     *     None
+     * Returns:
+     *     void
+     */
+    void ResetFilters();
+
+
+    /**
+     * Reset only revolution and pulse counters.
+     * Preserves filter state and configuration.
+     * Args:
+     *     None
+     * Returns:
+     *     void
+     */
+    void ResetRevolutionCounters();
+
+
+    /**
+     * Perform complete system reset to factory defaults.
+     * Resets all counters, filters, and restores initial configuration.
+     * Args:
+     *     None
+     * Returns:
+     *     void
+     */
+    void ResetSystem();
+
+
+    /**
      * Get raw pulse count from last sample period.
      * Provides access to unprocessed pulse data for advanced analysis.
      * Args:
@@ -193,6 +252,17 @@ public:
      *     bool - True if change successful, false if invalid parameter
      */
     bool SetSamplePeriod(uint16_t newPeriodMs);
+
+
+    /**
+     * Change debounce filter time during runtime.
+     * Allows dynamic adjustment of noise filtering for different sensor characteristics.
+     * Args:
+     *     newDebounceMicros - New debounce time in microseconds
+     * Returns:
+     *     void
+     */
+    void SetDebounceTime(uint16_t newDebounceMicros);
 
 
     /**
@@ -264,6 +334,17 @@ public:
     void HandleTimerInterrupt();
 
 
+    /**
+     * Get timer number for ISR access.
+     * Provides read-only access to timer configuration for interrupt handlers.
+     * Args:
+     *     None
+     * Returns:
+     *     uint8_t - Current timer number (1, 3, 4, or 5)
+     */
+    uint8_t GetTimerNumber() const;
+
+
 private:
     /**
      * Configure specified timer for precise interrupt generation.
@@ -320,7 +401,17 @@ private:
      */
     uint16_t CalculateTimerCompareValue(uint16_t periodMs);
 
-    return (uint16_t)compareValue;
+
+    /**
+     * Apply digital filtering to measurements.
+     * Implements low-pass filter and moving average for noise reduction.
+     * Args:
+     *     None
+     * Returns:
+     *     void
+     */
+    void ApplyDigitalFilter();
+
 }; // end class Tachometer
 
 #endif // TACHOMETER_H

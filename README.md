@@ -84,7 +84,8 @@ Tachometer(uint8_t irPin,                    // IR sensor input pin (2,3,18,19,2
 
 For complete technical documentation, hardware connection diagrams, filtering theory, troubleshooting guide, and advanced examples, see:
 
-**📖 [Complete Technical Documentation](Tachometer.md)**
+**📖 [Complete Technical Documentation](Tachometer.md)**  
+**📖 [Diagrams](diagram.html)**
 
 ## 🔌 Hardware Requirements
 
